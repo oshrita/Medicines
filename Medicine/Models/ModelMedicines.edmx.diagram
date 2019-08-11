@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="0aa0f6e50965486b9035d01d0d50744e" Name="Diagram1">
+        <EntityTypeShape EntityType="MedicinesModel.Beds" Width="1.5" PointX="10.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.Burdeneds" Width="1.5" PointX="4.25" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.Departments" Width="1.5" PointX="6" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.HospitalizationBeds" Width="2.125" PointX="0.5" PointY="2.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.HospitalizationMedicine" Width="2.875" PointX="4.75" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.Hospitalizations" Width="1.5" PointX="6.625" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.HourForMedicine" Width="2.375" PointX="10.125" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.Medicines" Width="1.5" PointX="3.125" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.MedicinesKind" Width="1.5" PointX="1.25" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.Roles" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.Rooms" Width="1.5" PointX="8.5" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.sysdiagrams" Width="1.5" PointX="17.25" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.TakeMedicine" Width="1.5" PointX="8.375" PointY="2.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="MedicinesModel.Workers" Width="1.5" PointX="2.25" PointY="0.5" IsExpanded="true" />
+        <AssociationConnector Association="MedicinesModel.FK__Beds__CodeRoom__4A8310C6" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Hospitali__CodeB__7CD98669" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Hospitali__IdBur__762C88DA" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Departmen__IdDep__03F0984C" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Hospitali__CodeD__7720AD13" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Rooms__CodeDepar__47A6A41B" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Hospitali__CodeH__7BE56230" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Hospitali__IDAch__7DCDAAA2" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Hospitali__CodeH__056ECC6A" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Hospitali__codeM__0662F0A3" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Hospitali__IdDrM__075714DC" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__HourForMe__CodeM__10E07F16" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Hospitali__IdDrH__7814D14C" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Hospitali__IdDrL__7908F585" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__TakeMedic__CodeH__13BCEBC1" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Medicines__CodeK__02925FBF" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__Workers__CodeRol__7C4F7684" ManuallyRouted="false" />
+        <AssociationConnector Association="MedicinesModel.FK__TakeMedic__IdGiv__14B10FFA" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="MedicinesModel.Contact" Width="1.5" PointX="1" PointY="7.25" />
+        <AssociationConnector Association="MedicinesModel.FK__Burdeneds__CodeC__01142BA1" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

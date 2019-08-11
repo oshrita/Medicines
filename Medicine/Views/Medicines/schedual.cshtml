@@ -1,0 +1,60 @@
+﻿@model IEnumerable<Medicine.Models.HourForMedicine>
+@{
+    Layout = null;
+    ViewBag.Title = "schedual";
+}
+<script>
+    function take(ev, codeHourForMedicine, dosage) {//שליחה לפונקציה בקונטרולר המעדכנת האם התרופה נלקחה בפועל       
+        alert(codeHourForMedicine);
+        alert(dosage);
+        $.ajax({
+            url: '/Medicines/AddTakeMedicine',
+            type: "GET",
+            data: { codeHourForMedicine: codeHourForMedicine, dosage: dosage },
+            // dataType: "JSON",
+            success: function (result) {
+                document.getElementById(codeHourForMedicine).style.display = 'block';
+                $(ev).css("disabled", "disabled");
+            },
+            error: function (result) {
+                alert(result);
+            }
+
+        });
+    }
+</script>
+<h2>schedual</h2>
+
+@if (Model == null || Model.Count() == 0)
+{
+    <span>לא נמצאו תרופות להיום למיטה זו</span>
+}
+else
+{
+    <table>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Hour</td>
+                <td>@item.HospitalizationMedicine.Medicines.MedicineName</td>
+                <td>@item.Dosage</td>
+                <td>@item.SpecialInstructions</td>
+                @if (item.TakeMedicine.Where(t => t.TimeTaking.Date == DateTime.Today).Count() > 0)
+                {
+                    <td><span>נלקח</span></td>
+                }
+                else
+                {
+                    <td>
+                        <button name="@item.CodeHourForMedicine" onclick="take(this, @item.CodeHourForMedicine,'@item.Dosage')">עדכן לקיחת תרופה</button>
+                    </td>
+                    <td>
+                        <span style="display:none" id="@item.CodeHourForMedicine">נלקח</span>
+                    </td>
+                }
+            </tr>
+        }
+    </table>
+
+}
+

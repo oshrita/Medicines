@@ -1,0 +1,61 @@
+﻿@model Medicine.Models.Medicines
+
+@{
+    Layout = Session["Layout"].ToString();
+    ViewBag.Title = "AddMedicines";
+}
+
+<h2>הוספת תרופה</h2>
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @*<div class="form-group">
+           <h5>מס' תרופה</h5>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.CodeMedicine, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CodeMedicine, "", new { @class = "text-danger" })
+            </div>
+        </div>*@
+
+        <div class="form-group">
+            <h5>שם תרופה</h5>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.MedicineName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.MedicineName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h5>סוג</h5>
+            <div class="col-md-10">
+                <!--רשימת סוגי התרופות משום מה נופל לי לא יודעת על מה-->
+                @Html.DropDownListFor(model => model.CodeKind, (SelectList)ViewBag.MyMedi, "בחר סוג תרופה", new {@htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.CodeKind, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h5>טווח שעות</h5>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.SpectrumHours, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.SpectrumHours, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10"> </div>
+        </div>
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="צור" class="btn btn-default" />
+            </div>
+            @ViewBag.medicineIsExist
+        </div>
+    </div>
+}
+

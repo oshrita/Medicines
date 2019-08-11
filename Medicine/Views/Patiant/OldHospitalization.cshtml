@@ -1,0 +1,103 @@
+﻿@model IEnumerable<Medicine.Models.Hospitalizations>
+
+@{
+    //Layout = Session["Layout"].ToString();
+    ViewBag.Title = "OldHospitalization";
+}
+
+<script>
+    //function search()
+    //{
+    //    var date = document.getElementById("searchDate").value;
+    //    var id = document.getElementById("idB").value;
+    //    $.ajax({
+    //        url: '/Patiant/Search',
+    //        type: "GET",
+    //        data: { date: date, id: id },
+    //        dataType: "JSON",
+    //        success: function (result) {
+
+    //        },
+    //        error: function (result) {
+    //            alert(result);
+    //        }
+
+    //    });
+    //}
+    function fID() {
+
+        @*var v = document.getElementById("searchDate").value;
+        @ViewBag.searcDate=v;
+        @Session["searcDate"]= document.getElementById("searchDate").value;*@
+        var id=@Session["IdBurdened"];
+        document.getElementById('id').value = id;
+    }
+</script>
+<body onload="fID()" >
+    <h2>OldHospitalization</h2>
+    <form action="/Patiant/PatiantDetailes" method="post">
+        <label>הכנס תאריך אשפוז או שחרור</label>
+        <input id="id" hidden name="id"  />
+        <input id="searchDate" name="searchDate" type="text" />
+        <button id="Button1" type="submit" @*onclick="fDate(); location.href='@Url.Action("PatiantDetailes","Patiant")';"*@>חפש</button>
+    </form>
+
+    <div id="hospitalization">
+
+    </div>
+
+    @if (Model != null && Model.Count() > 0)
+    {
+
+        <table class="table">
+            <tr>
+                <th>
+                    <h5>תאריך כניסה</h5>
+                </th>
+                <th>
+                    <h5>תאריך יציאה</h5>
+                </th>
+                <th>
+                    <h5>מספר מחלקה</h5>
+                </th>
+                <th>
+                    <h5>ת"ז רופא מאשפז</h5>
+                </th>
+                <th>
+                    <h5>ת"ז רופא משחרר</h5>
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EnteringDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.ExitDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CodeDepartment)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdDrHospitalize)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.IdDrLiberator)
+                        <input id="idB" hidden value="@item.IdBurdened" />
+                    </td>
+                </tr>
+            }
+
+        </table>
+    }
+    else
+    {
+        <p>
+            אין אישפוזים קודמים
+        </p>
+    }
+
+</body>

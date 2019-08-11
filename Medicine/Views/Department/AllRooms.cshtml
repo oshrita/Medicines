@@ -1,0 +1,124 @@
+﻿@model Medicine.Models.Departments
+
+<script>
+    function bedActive(codeBed) {
+        alert(codeBed);
+    }
+</script>
+
+@{
+    Layout = Session["Layout"].ToString();
+    ViewBag.Title = "AllRooms";
+}
+
+<h2>חדרים</h2>
+
+@Html.HiddenFor(d => d.CodeDepartment)
+
+
+<div class="form-horizontal">
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            @* @Html.DisplayName("שם המחלקה")*@
+            <h5>שם המחלקה</h5>
+        </div>
+        @Html.DisplayFor(d => d.DepartmentName, new { @class = "form-control col-md-10" })
+    </div>
+    <div class="form-group">
+        <div class="control-label col-md-2">
+            @Html.DisplayName("תז מנהל המחלקה")
+        </div>
+        @Html.DisplayFor(d => d.IdDepartrmentManager, new { @class = "form-control col-md-10" })
+    </div>
+    <br />
+    @if (Model != null && Model.Rooms.Count() > 0)
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    <h5>מס' חדר</h5>
+                </th>
+                @*<th>
+                        <h5>מס' מחלקה</h5>
+                    </th>*@
+                @*<th>
+                    <h5>פעיל?</h5>
+                </th>*@
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model.Rooms)
+            {
+                <tr data-toggle="collapse" data-target="#row_@item.CodeRoom">
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CodeRoom)
+                    </td>
+                    <!--עמודה המציגה את מס' המחל' לא רלוונטי לכל החדרים אותו מספר
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CodeDepartment)
+                    </td>-->
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Active)
+                    </td>                   
+                    <td>
+                        <!--האפשרות בעריכת חדר היא רק שנוי סטטוס ברגע שעושים את זה בכפתור העריכה עצמה מיותרת
+                            @Html.ActionLink("עריכה", "EditRoom", new { CodeRoom = item.CodeRoom })-->
+
+                        @if (item.Active)//בדיקה האם פעיל?- מציג לא פעיל
+                        {
+                            @Html.ActionLink("פעיל", "SetActiveState", new { codeRoom = item.CodeRoom })
+                        }
+                        else//אחרת- מציג פעיל
+                        {
+                            @Html.ActionLink("לא פעיל", "SetActiveState", new { codeRoom = item.CodeRoom })
+                        }
+                    </td>
+                    <td style="color:#0094ff">מיטות החדר</td>
+                </tr>
+
+                <tr id="row_@item.CodeRoom" class="collapse">
+                    <td colspan="4">
+                        <table>
+                            <tr>
+                                <th>קוד מיטה</th>
+                                @*<th>פעיל?</th>*@                              
+                            </tr>
+                            @foreach (var bed in item.Beds)
+                            {
+                                <tr>
+                                    <td> @Html.DisplayFor(modelItem => bed.CodeBed)</td>
+                                    <td> @Html.DisplayFor(modelItem => bed.Active)</td>
+                                    <td>
+                                        @if (bed.Active)//בדיקה האם פעיל?- מציג לא פעיל
+                                        {
+                                            @Html.ActionLink("פעיל", "SetActiveStateBed", new { codeBed = item.CodeRoom })
+                                        }
+                                        else//אחרת- מציג פעיל
+                                        {
+                                            @Html.ActionLink("לא פעיל", "SetActiveStateBed", new { codeBed = item.CodeRoom })
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </td>
+                </tr>
+
+            }
+
+        </table>
+    }
+    else
+    {
+        <p>
+            אין חדרים
+        </p>
+    }
+</div>
+
+<p>
+    <button type="button" value="הוסף חדר" class="glyphicon-plus" onclick="addRoom(@Model.CodeDepartment)">הוסף חדר</button>
+</p>
+<div>
+    @Html.ActionLink("חזור", "AllDepartments")
+</div>

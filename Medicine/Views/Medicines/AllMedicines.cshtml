@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Medicine.Models.Medicines>
+
+@{
+    Layout = Session["Layout"].ToString();
+    ViewBag.Title = "AllMedicines";
+}
+
+<style>
+    .addMedicine {
+        position: absolute;
+        left: 0px;
+    }
+</style>
+
+<h2>סל התרופות</h2>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+<table class="table">
+    <tr>
+        <th>
+            <h5>מס' תרופה</h5>
+        </th>
+        <th>
+            <h5>שם תרופה</h5>
+        </th>
+        <th>
+            <h5>סוג</h5>
+        </th>
+        <th>
+            <h5>טווח שעות</h5>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodeMedicine)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MedicineName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MedicinesKind.NameKind)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SpectrumHours)
+        </td>
+    </tr>
+}
+</table>
+<p class="btn btn-default addMedicine" >
+    @Html.ActionLink("הוספת תרופה", "AddMedicines")
+</p>
+}
+else
+{
+    < p >אין תרופות</ p >
+}

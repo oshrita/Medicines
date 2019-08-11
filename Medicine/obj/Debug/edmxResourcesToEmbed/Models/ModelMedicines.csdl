@@ -1,0 +1,510 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="MedicinesModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Beds">
+    <Key>
+      <PropertyRef Name="CodeBed" />
+    </Key>
+    <Property Name="CodeBed" Type="Int32" Nullable="false" />
+    <Property Name="CodeRoom" Type="Int32" Nullable="false" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <Property Name="SpecialNotes" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Rooms" Relationship="Self.FK__Beds__CodeRoom__4A8310C6" FromRole="Beds" ToRole="Rooms" />
+    <NavigationProperty Name="HospitalizationBeds" Relationship="Self.FK__Hospitali__CodeB__7CD98669" FromRole="Beds" ToRole="HospitalizationBeds" />
+  </EntityType>
+  <EntityType Name="Burdeneds">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="BirthDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CodeContact" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Hospitalizations" Relationship="Self.FK__Hospitali__IdBur__762C88DA" FromRole="Burdeneds" ToRole="Hospitalizations" />
+    <NavigationProperty Name="Contact" Relationship="MedicinesModel.FK__Burdeneds__CodeC__01142BA1" FromRole="Burdeneds" ToRole="Contact" />
+  </EntityType>
+  <EntityType Name="Departments">
+    <Key>
+      <PropertyRef Name="CodeDepartment" />
+    </Key>
+    <Property Name="CodeDepartment" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="DepartmentName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IdDepartrmentManager" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Workers" Relationship="Self.FK__Departmen__IdDep__03F0984C" FromRole="Departments" ToRole="Workers" />
+    <NavigationProperty Name="Hospitalizations" Relationship="Self.FK__Hospitali__CodeD__7720AD13" FromRole="Departments" ToRole="Hospitalizations" />
+    <NavigationProperty Name="Rooms" Relationship="Self.FK__Rooms__CodeDepar__47A6A41B" FromRole="Departments" ToRole="Rooms" />
+  </EntityType>
+  <EntityType Name="HospitalizationBeds">
+    <Key>
+      <PropertyRef Name="CodeHospitalizationBed" />
+    </Key>
+    <Property Name="CodeHospitalizationBed" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CodeHospitalization" Type="Int32" Nullable="false" />
+    <Property Name="CodeBed" Type="Int32" Nullable="false" />
+    <Property Name="BeginDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Precision="3" />
+    <Property Name="IDAchievementPlacemen" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Beds" Relationship="Self.FK__Hospitali__CodeB__7CD98669" FromRole="HospitalizationBeds" ToRole="Beds" />
+    <NavigationProperty Name="Hospitalizations" Relationship="Self.FK__Hospitali__CodeH__7BE56230" FromRole="HospitalizationBeds" ToRole="Hospitalizations" />
+    <NavigationProperty Name="Workers" Relationship="Self.FK__Hospitali__IDAch__7DCDAAA2" FromRole="HospitalizationBeds" ToRole="Workers" />
+  </EntityType>
+  <EntityType Name="HospitalizationMedicine">
+    <Key>
+      <PropertyRef Name="CodeHospitalizationMedicine" />
+    </Key>
+    <Property Name="CodeHospitalizationMedicine" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CodeHospitalizatin" Type="Int32" Nullable="false" />
+    <Property Name="codeMedicine" Type="Int32" Nullable="false" />
+    <Property Name="IdDrMentor" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="Hospitalizations" Relationship="Self.FK__Hospitali__CodeH__056ECC6A" FromRole="HospitalizationMedicine" ToRole="Hospitalizations" />
+    <NavigationProperty Name="Medicines" Relationship="Self.FK__Hospitali__codeM__0662F0A3" FromRole="HospitalizationMedicine" ToRole="Medicines" />
+    <NavigationProperty Name="Workers" Relationship="Self.FK__Hospitali__IdDrM__075714DC" FromRole="HospitalizationMedicine" ToRole="Workers" />
+    <NavigationProperty Name="HourForMedicine" Relationship="Self.FK__HourForMe__CodeM__10E07F16" FromRole="HospitalizationMedicine" ToRole="HourForMedicine" />
+  </EntityType>
+  <EntityType Name="Hospitalizations">
+    <Key>
+      <PropertyRef Name="CodeHospitalization" />
+    </Key>
+    <Property Name="CodeHospitalization" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="IdBurdened" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="EnteringDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="ExitDate" Type="DateTime" Precision="3" />
+    <Property Name="CodeDepartment" Type="Int32" Nullable="false" />
+    <Property Name="IdDrHospitalize" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="IdDrLiberator" Type="String" MaxLength="9" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Burdeneds" Relationship="Self.FK__Hospitali__IdBur__762C88DA" FromRole="Hospitalizations" ToRole="Burdeneds" />
+    <NavigationProperty Name="Departments" Relationship="Self.FK__Hospitali__CodeD__7720AD13" FromRole="Hospitalizations" ToRole="Departments" />
+    <NavigationProperty Name="HospitalizationBeds" Relationship="Self.FK__Hospitali__CodeH__7BE56230" FromRole="Hospitalizations" ToRole="HospitalizationBeds" />
+    <NavigationProperty Name="HospitalizationMedicine" Relationship="Self.FK__Hospitali__CodeH__056ECC6A" FromRole="Hospitalizations" ToRole="HospitalizationMedicine" />
+    <NavigationProperty Name="Workers" Relationship="Self.FK__Hospitali__IdDrH__7814D14C" FromRole="Hospitalizations" ToRole="Workers" />
+    <NavigationProperty Name="Workers1" Relationship="Self.FK__Hospitali__IdDrL__7908F585" FromRole="Hospitalizations" ToRole="Workers" />
+  </EntityType>
+  <EntityType Name="HourForMedicine">
+    <Key>
+      <PropertyRef Name="CodeHourForMedicine" />
+    </Key>
+    <Property Name="CodeHourForMedicine" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CodeMedicineToHospitalize" Type="Int32" Nullable="false" />
+    <Property Name="Hour" Type="String" MaxLength="5" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Dosage" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SpecialInstructions" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="BeginDate" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="EndDate" Type="DateTime" Nullable="false" Precision="3" />
+    <NavigationProperty Name="HospitalizationMedicine" Relationship="Self.FK__HourForMe__CodeM__10E07F16" FromRole="HourForMedicine" ToRole="HospitalizationMedicine" />
+    <NavigationProperty Name="TakeMedicine" Relationship="Self.FK__TakeMedic__CodeH__13BCEBC1" FromRole="HourForMedicine" ToRole="TakeMedicine" />
+  </EntityType>
+  <EntityType Name="Medicines">
+    <Key>
+      <PropertyRef Name="CodeMedicine" />
+    </Key>
+    <Property Name="CodeMedicine" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MedicineName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="CodeKind" Type="Int32" Nullable="false" />
+    <Property Name="SpectrumHours" Type="Double" Nullable="false" />
+    <NavigationProperty Name="HospitalizationMedicine" Relationship="Self.FK__Hospitali__codeM__0662F0A3" FromRole="Medicines" ToRole="HospitalizationMedicine" />
+    <NavigationProperty Name="MedicinesKind" Relationship="Self.FK__Medicines__CodeK__02925FBF" FromRole="Medicines" ToRole="MedicinesKind" />
+  </EntityType>
+  <EntityType Name="MedicinesKind">
+    <Key>
+      <PropertyRef Name="CodeKind" />
+    </Key>
+    <Property Name="CodeKind" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NameKind" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Medicines" Relationship="Self.FK__Medicines__CodeK__02925FBF" FromRole="MedicinesKind" ToRole="Medicines" />
+  </EntityType>
+  <EntityType Name="Roles">
+    <Key>
+      <PropertyRef Name="CodeRole" />
+    </Key>
+    <Property Name="CodeRole" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Workers" Relationship="Self.FK__Workers__CodeRol__7C4F7684" FromRole="Roles" ToRole="Workers" />
+  </EntityType>
+  <EntityType Name="Rooms">
+    <Key>
+      <PropertyRef Name="CodeRoom" />
+    </Key>
+    <Property Name="CodeRoom" Type="Int32" Nullable="false" />
+    <Property Name="CodeDepartment" Type="Int32" Nullable="false" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Beds" Relationship="Self.FK__Beds__CodeRoom__4A8310C6" FromRole="Rooms" ToRole="Beds" />
+    <NavigationProperty Name="Departments" Relationship="Self.FK__Rooms__CodeDepar__47A6A41B" FromRole="Rooms" ToRole="Departments" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="TakeMedicine">
+    <Key>
+      <PropertyRef Name="CodeTaking" />
+    </Key>
+    <Property Name="CodeTaking" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CodeHourForMedicine" Type="Int32" Nullable="false" />
+    <Property Name="TimeTaking" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Dosage" Type="String" MaxLength="10" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="IdGivingMedicine" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="SpecialNotes" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="HourForMedicine" Relationship="Self.FK__TakeMedic__CodeH__13BCEBC1" FromRole="TakeMedicine" ToRole="HourForMedicine" />
+    <NavigationProperty Name="Workers" Relationship="Self.FK__TakeMedic__IdGiv__14B10FFA" FromRole="TakeMedicine" ToRole="Workers" />
+  </EntityType>
+  <EntityType Name="Workers">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="String" MaxLength="9" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Password" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="LastName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Phone" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="CodeRole" Type="Int32" Nullable="false" />
+    <Property Name="Active" Type="Boolean" Nullable="false" />
+    <NavigationProperty Name="Departments" Relationship="Self.FK__Departmen__IdDep__03F0984C" FromRole="Workers" ToRole="Departments" />
+    <NavigationProperty Name="HospitalizationBeds" Relationship="Self.FK__Hospitali__IDAch__7DCDAAA2" FromRole="Workers" ToRole="HospitalizationBeds" />
+    <NavigationProperty Name="HospitalizationMedicine" Relationship="Self.FK__Hospitali__IdDrM__075714DC" FromRole="Workers" ToRole="HospitalizationMedicine" />
+    <NavigationProperty Name="Hospitalizations" Relationship="Self.FK__Hospitali__IdDrH__7814D14C" FromRole="Workers" ToRole="Hospitalizations" />
+    <NavigationProperty Name="Hospitalizations1" Relationship="Self.FK__Hospitali__IdDrL__7908F585" FromRole="Workers" ToRole="Hospitalizations" />
+    <NavigationProperty Name="Roles" Relationship="Self.FK__Workers__CodeRol__7C4F7684" FromRole="Workers" ToRole="Roles" />
+    <NavigationProperty Name="TakeMedicine" Relationship="Self.FK__TakeMedic__IdGiv__14B10FFA" FromRole="Workers" ToRole="TakeMedicine" />
+  </EntityType>
+  <Association Name="FK__Beds__CodeRoom__4A8310C6">
+    <End Role="Rooms" Type="Self.Rooms" Multiplicity="1" />
+    <End Role="Beds" Type="Self.Beds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Rooms">
+        <PropertyRef Name="CodeRoom" />
+      </Principal>
+      <Dependent Role="Beds">
+        <PropertyRef Name="CodeRoom" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Hospitali__CodeB__7CD98669">
+    <End Role="Beds" Type="Self.Beds" Multiplicity="1" />
+    <End Role="HospitalizationBeds" Type="Self.HospitalizationBeds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Beds">
+        <PropertyRef Name="CodeBed" />
+      </Principal>
+      <Dependent Role="HospitalizationBeds">
+        <PropertyRef Name="CodeBed" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Hospitali__IdBur__762C88DA">
+    <End Role="Burdeneds" Type="Self.Burdeneds" Multiplicity="1" />
+    <End Role="Hospitalizations" Type="Self.Hospitalizations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Burdeneds">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Hospitalizations">
+        <PropertyRef Name="IdBurdened" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Departmen__IdDep__03F0984C">
+    <End Role="Workers" Type="Self.Workers" Multiplicity="1" />
+    <End Role="Departments" Type="Self.Departments" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Workers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Departments">
+        <PropertyRef Name="IdDepartrmentManager" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Hospitali__CodeD__7720AD13">
+    <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+    <End Role="Hospitalizations" Type="Self.Hospitalizations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="CodeDepartment" />
+      </Principal>
+      <Dependent Role="Hospitalizations">
+        <PropertyRef Name="CodeDepartment" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Rooms__CodeDepar__47A6A41B">
+    <End Role="Departments" Type="Self.Departments" Multiplicity="1" />
+    <End Role="Rooms" Type="Self.Rooms" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Departments">
+        <PropertyRef Name="CodeDepartment" />
+      </Principal>
+      <Dependent Role="Rooms">
+        <PropertyRef Name="CodeDepartment" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Hospitali__CodeH__7BE56230">
+    <End Role="Hospitalizations" Type="Self.Hospitalizations" Multiplicity="1" />
+    <End Role="HospitalizationBeds" Type="Self.HospitalizationBeds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hospitalizations">
+        <PropertyRef Name="CodeHospitalization" />
+      </Principal>
+      <Dependent Role="HospitalizationBeds">
+        <PropertyRef Name="CodeHospitalization" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Hospitali__IDAch__7DCDAAA2">
+    <End Role="Workers" Type="Self.Workers" Multiplicity="1" />
+    <End Role="HospitalizationBeds" Type="Self.HospitalizationBeds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Workers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HospitalizationBeds">
+        <PropertyRef Name="IDAchievementPlacemen" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Hospitali__CodeH__056ECC6A">
+    <End Role="Hospitalizations" Type="Self.Hospitalizations" Multiplicity="1" />
+    <End Role="HospitalizationMedicine" Type="Self.HospitalizationMedicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Hospitalizations">
+        <PropertyRef Name="CodeHospitalization" />
+      </Principal>
+      <Dependent Role="HospitalizationMedicine">
+        <PropertyRef Name="CodeHospitalizatin" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Hospitali__codeM__0662F0A3">
+    <End Role="Medicines" Type="Self.Medicines" Multiplicity="1" />
+    <End Role="HospitalizationMedicine" Type="Self.HospitalizationMedicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Medicines">
+        <PropertyRef Name="CodeMedicine" />
+      </Principal>
+      <Dependent Role="HospitalizationMedicine">
+        <PropertyRef Name="codeMedicine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Hospitali__IdDrM__075714DC">
+    <End Role="Workers" Type="Self.Workers" Multiplicity="1" />
+    <End Role="HospitalizationMedicine" Type="Self.HospitalizationMedicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Workers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="HospitalizationMedicine">
+        <PropertyRef Name="IdDrMentor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__HourForMe__CodeM__10E07F16">
+    <End Role="HospitalizationMedicine" Type="Self.HospitalizationMedicine" Multiplicity="1" />
+    <End Role="HourForMedicine" Type="Self.HourForMedicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HospitalizationMedicine">
+        <PropertyRef Name="CodeHospitalizationMedicine" />
+      </Principal>
+      <Dependent Role="HourForMedicine">
+        <PropertyRef Name="CodeMedicineToHospitalize" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Hospitali__IdDrH__7814D14C">
+    <End Role="Workers" Type="Self.Workers" Multiplicity="1" />
+    <End Role="Hospitalizations" Type="Self.Hospitalizations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Workers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Hospitalizations">
+        <PropertyRef Name="IdDrHospitalize" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Hospitali__IdDrL__7908F585">
+    <End Role="Workers" Type="Self.Workers" Multiplicity="0..1" />
+    <End Role="Hospitalizations" Type="Self.Hospitalizations" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Workers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="Hospitalizations">
+        <PropertyRef Name="IdDrLiberator" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TakeMedic__CodeH__13BCEBC1">
+    <End Role="HourForMedicine" Type="Self.HourForMedicine" Multiplicity="1" />
+    <End Role="TakeMedicine" Type="Self.TakeMedicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="HourForMedicine">
+        <PropertyRef Name="CodeHourForMedicine" />
+      </Principal>
+      <Dependent Role="TakeMedicine">
+        <PropertyRef Name="CodeHourForMedicine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Medicines__CodeK__02925FBF">
+    <End Role="MedicinesKind" Type="Self.MedicinesKind" Multiplicity="1" />
+    <End Role="Medicines" Type="Self.Medicines" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MedicinesKind">
+        <PropertyRef Name="CodeKind" />
+      </Principal>
+      <Dependent Role="Medicines">
+        <PropertyRef Name="CodeKind" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Workers__CodeRol__7C4F7684">
+    <End Role="Roles" Type="Self.Roles" Multiplicity="1" />
+    <End Role="Workers" Type="Self.Workers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Roles">
+        <PropertyRef Name="CodeRole" />
+      </Principal>
+      <Dependent Role="Workers">
+        <PropertyRef Name="CodeRole" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__TakeMedic__IdGiv__14B10FFA">
+    <End Role="Workers" Type="Self.Workers" Multiplicity="1" />
+    <End Role="TakeMedicine" Type="Self.TakeMedicine" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Workers">
+        <PropertyRef Name="Id" />
+      </Principal>
+      <Dependent Role="TakeMedicine">
+        <PropertyRef Name="IdGivingMedicine" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="MedicinesEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Beds" EntityType="Self.Beds" />
+    <EntitySet Name="Burdeneds" EntityType="Self.Burdeneds" />
+    <EntitySet Name="Departments" EntityType="Self.Departments" />
+    <EntitySet Name="HospitalizationBeds" EntityType="Self.HospitalizationBeds" />
+    <EntitySet Name="HospitalizationMedicine" EntityType="Self.HospitalizationMedicine" />
+    <EntitySet Name="Hospitalizations" EntityType="Self.Hospitalizations" />
+    <EntitySet Name="HourForMedicine" EntityType="Self.HourForMedicine" />
+    <EntitySet Name="Medicines" EntityType="Self.Medicines" />
+    <EntitySet Name="MedicinesKind" EntityType="Self.MedicinesKind" />
+    <EntitySet Name="Roles" EntityType="Self.Roles" />
+    <EntitySet Name="Rooms" EntityType="Self.Rooms" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="TakeMedicine" EntityType="Self.TakeMedicine" />
+    <EntitySet Name="Workers" EntityType="Self.Workers" />
+    <AssociationSet Name="FK__Beds__CodeRoom__4A8310C6" Association="Self.FK__Beds__CodeRoom__4A8310C6">
+      <End Role="Rooms" EntitySet="Rooms" />
+      <End Role="Beds" EntitySet="Beds" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Hospitali__CodeB__7CD98669" Association="Self.FK__Hospitali__CodeB__7CD98669">
+      <End Role="Beds" EntitySet="Beds" />
+      <End Role="HospitalizationBeds" EntitySet="HospitalizationBeds" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Hospitali__IdBur__762C88DA" Association="Self.FK__Hospitali__IdBur__762C88DA">
+      <End Role="Burdeneds" EntitySet="Burdeneds" />
+      <End Role="Hospitalizations" EntitySet="Hospitalizations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Departmen__IdDep__03F0984C" Association="Self.FK__Departmen__IdDep__03F0984C">
+      <End Role="Workers" EntitySet="Workers" />
+      <End Role="Departments" EntitySet="Departments" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Hospitali__CodeD__7720AD13" Association="Self.FK__Hospitali__CodeD__7720AD13">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Hospitalizations" EntitySet="Hospitalizations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Rooms__CodeDepar__47A6A41B" Association="Self.FK__Rooms__CodeDepar__47A6A41B">
+      <End Role="Departments" EntitySet="Departments" />
+      <End Role="Rooms" EntitySet="Rooms" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Hospitali__CodeH__7BE56230" Association="Self.FK__Hospitali__CodeH__7BE56230">
+      <End Role="Hospitalizations" EntitySet="Hospitalizations" />
+      <End Role="HospitalizationBeds" EntitySet="HospitalizationBeds" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Hospitali__IDAch__7DCDAAA2" Association="Self.FK__Hospitali__IDAch__7DCDAAA2">
+      <End Role="Workers" EntitySet="Workers" />
+      <End Role="HospitalizationBeds" EntitySet="HospitalizationBeds" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Hospitali__CodeH__056ECC6A" Association="Self.FK__Hospitali__CodeH__056ECC6A">
+      <End Role="Hospitalizations" EntitySet="Hospitalizations" />
+      <End Role="HospitalizationMedicine" EntitySet="HospitalizationMedicine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Hospitali__codeM__0662F0A3" Association="Self.FK__Hospitali__codeM__0662F0A3">
+      <End Role="Medicines" EntitySet="Medicines" />
+      <End Role="HospitalizationMedicine" EntitySet="HospitalizationMedicine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Hospitali__IdDrM__075714DC" Association="Self.FK__Hospitali__IdDrM__075714DC">
+      <End Role="Workers" EntitySet="Workers" />
+      <End Role="HospitalizationMedicine" EntitySet="HospitalizationMedicine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__HourForMe__CodeM__10E07F16" Association="Self.FK__HourForMe__CodeM__10E07F16">
+      <End Role="HospitalizationMedicine" EntitySet="HospitalizationMedicine" />
+      <End Role="HourForMedicine" EntitySet="HourForMedicine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Hospitali__IdDrH__7814D14C" Association="Self.FK__Hospitali__IdDrH__7814D14C">
+      <End Role="Workers" EntitySet="Workers" />
+      <End Role="Hospitalizations" EntitySet="Hospitalizations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Hospitali__IdDrL__7908F585" Association="Self.FK__Hospitali__IdDrL__7908F585">
+      <End Role="Workers" EntitySet="Workers" />
+      <End Role="Hospitalizations" EntitySet="Hospitalizations" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TakeMedic__CodeH__13BCEBC1" Association="Self.FK__TakeMedic__CodeH__13BCEBC1">
+      <End Role="HourForMedicine" EntitySet="HourForMedicine" />
+      <End Role="TakeMedicine" EntitySet="TakeMedicine" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Medicines__CodeK__02925FBF" Association="Self.FK__Medicines__CodeK__02925FBF">
+      <End Role="MedicinesKind" EntitySet="MedicinesKind" />
+      <End Role="Medicines" EntitySet="Medicines" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Workers__CodeRol__7C4F7684" Association="Self.FK__Workers__CodeRol__7C4F7684">
+      <End Role="Roles" EntitySet="Roles" />
+      <End Role="Workers" EntitySet="Workers" />
+    </AssociationSet>
+    <AssociationSet Name="FK__TakeMedic__IdGiv__14B10FFA" Association="Self.FK__TakeMedic__IdGiv__14B10FFA">
+      <End Role="Workers" EntitySet="Workers" />
+      <End Role="TakeMedicine" EntitySet="TakeMedicine" />
+    </AssociationSet>
+    <EntitySet Name="Contact" EntityType="MedicinesModel.Contact" />
+    <AssociationSet Name="FK__Burdeneds__CodeC__01142BA1" Association="MedicinesModel.FK__Burdeneds__CodeC__01142BA1">
+      <End Role="Contact" EntitySet="Contact" />
+      <End Role="Burdeneds" EntitySet="Burdeneds" />
+    </AssociationSet>
+  </EntityContainer>
+  <EntityType Name="Contact">
+    <Key>
+      <PropertyRef Name="CodeContact" />
+    </Key>
+    <Property Name="CodeContact" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="LastName" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <Property Name="Phone" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Burdeneds" Relationship="MedicinesModel.FK__Burdeneds__CodeC__01142BA1" FromRole="Contact" ToRole="Burdeneds" />
+  </EntityType>
+  <Association Name="FK__Burdeneds__CodeC__01142BA1">
+    <End Type="MedicinesModel.Contact" Role="Contact" Multiplicity="1" />
+    <End Type="MedicinesModel.Burdeneds" Role="Burdeneds" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Contact">
+        <PropertyRef Name="CodeContact" />
+      </Principal>
+      <Dependent Role="Burdeneds">
+        <PropertyRef Name="CodeContact" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+</Schema>

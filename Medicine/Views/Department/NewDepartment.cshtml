@@ -1,0 +1,71 @@
+﻿<script>
+    function addRoom(codeDepartment) {
+        var numBeds = prompt("הכנס מספר מיטות");
+        $.ajax({
+            url: '/Department/AddRoom',
+            type: "GET",
+            data: { departmentId: codeDepartment, numBeds: numBeds },
+            dataType: "JSON",
+            success: function (result) {
+                var newRoom = "<div><label>קוד חדר</label><label>" + result + "</label><label>מספר מיטות</label><label>" + numBeds + "</label></div>";
+                $('#Rooms').append(newRoom)
+            },
+            error: function (result) {
+                alert(result);
+            }
+
+        });
+    }
+    
+</script>
+@model Medicine.Models.Departments
+
+@{
+    Layout = Session["Layout"].ToString();
+    ViewBag.Title = "NewDepartment";
+}
+
+<h2>מחלקה חדשה</h2>
+
+@using (Html.BeginForm("NewDepartment", "Department", FormMethod.Post)) 
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal" dir="rtl" >
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        <div class="form-group" >
+            <h5>מס' מחלקה</h5>
+            @*@Html.LabelFor(model => model.CodeDepartment, htmlAttributes: new { @class = "control-label col-md-2" })*@
+            <div class="col-md-10">
+                @Html.DisplayFor(model => model.CodeDepartment, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.HiddenFor(model => model.CodeDepartment)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h5>שם מחלקה</h5>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.DepartmentName, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.DepartmentName, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <h5>ת"ז מנהל המחלקה</h5>
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.IdDepartrmentManager, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.IdDepartrmentManager, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <button type="button" value="הוסף חדר" class="glyphicon-plus" onclick="addRoom(@Model.CodeDepartment)">הוסף חדר</button>
+        <div id="Rooms"></div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="צור" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}

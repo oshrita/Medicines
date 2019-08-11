@@ -1,0 +1,140 @@
+﻿<script type="text/javascript">
+    //שליחה לפונקציה בקונטרולר המחזירה את חדרי המחלקה
+    function departmentSelected() {
+        //alert($(document).getElementById("departments").val());
+        var departmentsId = $('#departments').val();
+        //alert(departmentsId);
+        $.ajax({
+            url: '/Patiant/GetRooms',
+            type: "GET",
+            data: { departmentId: departmentsId },
+            dataType: "JSON",
+            success: function (result) {
+                var select = $("#rooms");
+                select.attr("disabled", false);
+                select.children().remove();
+                if (result) {
+                    select.append($("<option>").val(null).text("בחר חדר"));
+                    $(result).each(function (index, item) {
+                        select.append($("<option>").val(item.Value).text(item.Text));
+                    });
+                }
+            },
+            error: function (result) {
+                alert(result);
+            }
+
+        });
+    }
+    //שליחה לפונקציה בקונטרולר המחזירה את המיטות הפעילות
+    function roomSelected() {
+        //alert($(document).getElementById("departments").val());
+        var roomsId = $('#rooms').val();
+        //alert(departmentsId);
+        $.ajax({
+            url: '/Patiant/GetBeds',
+            type: "GET",
+            data: { roomId: roomsId },
+            dataType: "JSON",
+            success: function (result) {
+                var select = $("#beds");
+                select.attr("disabled", false);
+                select.children().remove();
+                if (result) {
+                    select.append($("<option>").val(null).text("בחר מיטה"));
+                    $(result).each(function (index, item) {
+                        select.append($("<option>").val(item.Value).text(item.Text));
+                    });
+                }
+            },
+            error: function (result) {
+                alert(result);
+            }
+
+        });
+    }
+    function fSelectedBed() {
+        document.getElementById('CodeBed').value = $('#beds').val();
+    }
+</script>
+
+@model IEnumerable<Medicine.Models.HospitalizationBeds>
+@{
+    if (Session["Layout"].ToString().Contains("Nourse"))
+    { Layout = Session["Layout"].ToString(); }
+    ViewBag.Title = "Bed";
+}
+
+<h2>מיטות</h2>
+
+<div>
+    <h5>מיטה נוכחית</h5>
+    @if (ViewBag.currentBed != null)
+    {
+    <span>@ViewBag.currentBed</span>
+    }
+    else
+    {
+        <span>מטופל אינו משובץ במיטה</span>
+    }
+</div>
+@using (Html.BeginForm("ChangeBed", "Patiant", FormMethod.Post))
+{
+    @Html.DropDownList("departments", (SelectList)ViewBag.departments, "בחר מחלקה", new { @id = "departments", @onChange = "departmentSelected()", @class = "form-control" })
+    @Html.DropDownList("rooms", (SelectList)ViewBag.rooms, "בחר חדר", new { @id = "rooms", @onChange = "roomSelected()", @class = "form -control", @disabled = "disabled" })
+    @Html.DropDownList("beds", new SelectList(""), "בחר מיטה", new { @id = "beds", @onChange = "fSelectedBed()", @class = "form-control", @disabled = "disabled" })
+
+    <input type="submit" value="העברת מיטה" class="btn btn-default" />
+
+    <label>מיטות קודמות:</label>
+    if (Model != null && Model.Count() > 0)
+
+    {
+        <table class="table">
+            <tr>
+                <th>
+                    <h5>מספר מיטה</h5>
+                </th>
+                <th>
+                    <h5>תאריך כניסה</h5>
+                </th>
+                <th>
+                    <h5>תאריך יציאה</h5>
+                </th>
+                <th>
+                    <h5>שם משבץ</h5>
+                </th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CodeBed)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.BeginDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.EndDate)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Workers.FirstName)
+                    </td>
+                </tr>
+
+                @Html.Hidden("CodeHospitalization", item.CodeHospitalization)
+            }
+        </table>
+        <input id="CodeBed" name="CodeBed" type="hidden" value="" />
+        @ViewBag.note
+
+    }
+    else
+    {
+        <p>
+            אין מיטות קודמות
+        </p>
+    }
+
+}

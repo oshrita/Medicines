@@ -1,0 +1,32 @@
+﻿@model Medicine.Models.Workers
+@{
+    ViewBag.Title = "Login";
+}
+<style>
+    .form-group {
+        font-style: normal;
+        font-family: Algerian;
+        font-size: large;
+        font-weight: 700;
+        margin-top: 290px;
+    }
+    .password {
+        margin-right: 15px !important;
+    }
+    /*.label{
+        background-size:initial;
+        border:medium;
+        box-sizing:border-box
+    }*/
+</style>
+
+<form class="form-group" action="@Url.Action("Login")" method="post">
+    <label>הקש מס' זהות</label>
+    @Html.EditorFor(m => m.Id)
+    <br />
+    <label>הקש סיסמא</label>
+    @Html.EditorFor(m => m.Password,new { @class="password"})
+    <p class="label-danger">@ViewBag.error</p>
+    <button type="submit">התחבר</button>
+</form>
+

@@ -1,0 +1,102 @@
+﻿<script type="text/javascript">
+    function departmentSelected() {//שליחה לפונקציה בקונטרולר המחזירה את חדרי המחלקה
+        //alert($(document).getElementById("departments").val());
+        var departmentsId = $('#departments').val();
+        //alert(departmentsId);
+        $.ajax({
+            url: '/Patiant/GetRooms',
+            type: "GET",
+            data: { departmentId: departmentsId },
+            dataType: "JSON",
+            success: function (result) {
+                var select = $("#rooms");
+                select.attr("disabled", false);
+                select.children().remove();
+                if (result) {
+                    select.append($("<option>").val(null).text("בחר חדר"));
+                    $(result).each(function (index, item) {
+                        select.append($("<option>").val(item.Value).text(item.Text));
+                    });
+                }
+            },
+            error: function (result) {
+                alert(result);
+            }
+
+        });
+    }
+    function roomSelected() {//שליחה לפונקציה בקונטרולר המחזירה את המיטות הפעילות
+        //alert($(document).getElementById("departments").val());
+        var roomsId = $('#rooms').val();
+        //alert(departmentsId);
+        $.ajax({
+            url: '/Medicines/GetBeds',
+            type: "GET",
+            data: { roomId: roomsId },
+            dataType: "JSON",
+            success: function (result) {
+                var select = $("#beds");
+                select.attr("disabled", false);
+                select.children().remove();
+                if (result) {
+                    select.append($("<option>").val(null).text("בחר מיטה"));
+                    $(result).each(function (index, item) {
+                        select.append($("<option>").val(item.Value).text(item.Text));
+                    });
+                }
+            },
+            error: function (result) {
+                alert(result);
+            }
+
+        });
+    }
+    function fSelectedBed() {
+        $.ajax({
+            url: '/Medicines/GetSchedual',
+            type: "POST",
+            data: { BedId: $('#beds').val() },
+           // dataType: "JSON",
+            success: function (result) {
+                $('#schedual').html(result)
+            },
+            error: function (result) {
+                alert(result);
+            }
+        });
+    }
+    //function take(codeHourForMedicine,dosage) {
+    //    //כאן להוסיף פונקציה באגאקס שתוסיף לטבלת לקיחת תרופות...
+    //    alert(codeHourForMedicine);
+    //    $.ajax({
+    //        url: '/Medicines/AddTakeMedicine',
+    //        type: "GET",
+    //        data: { codeHourForMedicine: codeHourForMedicine, dosage: dosage },
+    //        // dataType: "JSON",
+    //        success: function (result) {
+    //            //$('#schedual').html(result)
+    //        },
+    //        error: function (result) {
+    //            alert(result);
+    //        }
+
+    //    });
+    //}
+</script>
+
+@{
+    Layout = Session["Layout"].ToString();
+    ViewBag.Title = "GivingMedicines";
+}
+
+@*<h2>GivingMedicines</h2>*@
+
+@Html.DropDownList("departments", (SelectList)ViewBag.departments, "בחר מחלקה", new { @id = "departments",
+    @onChange = "departmentSelected()", @class = "form-control" })
+@Html.DropDownList("rooms", (SelectList)ViewBag.rooms, "בחר חדר", new { @id = "rooms",
+    @onChange = "roomSelected()", @class = "form -control", @disabled = "disabled" })
+@Html.DropDownList("beds", new SelectList(""), "בחר מיטה", new { @id = "beds",
+    @onChange = "fSelectedBed()", @class = "form-control", @disabled = "disabled" })
+
+<div id="schedual" style="margin: 20px; border: solid gray">בחר מיטה כדי להציג יומן...
+    </div>

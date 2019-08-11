@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Medicine.Models.Burdeneds>
+
+@{
+    Layout = Session["Layout"].ToString();
+    ViewBag.Title = "AllPatiant";
+}
+
+<style>
+    .addPatiant {
+        position: absolute;
+        left: 0px;
+    }
+</style>
+
+<h2>מטופלים</h2>
+
+
+@if (Model != null && Model.Count() > 0)
+{
+<table class="table">
+    <tr>
+        <th>
+            <h5>שם פרטי</h5>
+            @*@Html.DisplayNameFor(model => model.FirstName)*@
+        </th>
+        <th>
+            <h5>שם משפחה</h5>
+        </th>
+        <th>
+            <h5>תאריך לידה</h5>
+        </th>
+        <th>
+            <h5>כתובת</h5>
+        </th>
+        <th>
+            <h5>טלפון</h5>
+        </th>
+        <th>
+            <h5>דוא"ל</h5>
+        </th>
+        <th>
+            <h5>שם איש קשר</h5>
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.BirthDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodeContact)
+        </td>
+        <td>
+            @if (Layout.Contains("Nourse"))
+            {
+                @Html.ActionLink("העברת מיטה", "PatiantMoveBed", new { id = item.Id })
+            }
+            else
+            {
+                @Html.ActionLink("פרטי מטופל", "PatiantDetailes", new { id = item.Id })
+            }
+        </td>
+    </tr>
+}
+</table>
+<p class="btn btn-default addPatiant" >
+    @Html.ActionLink("מטופל חדש", "NewPatiant")
+</p>
+}
+else
+{
+    <p>
+        אין פציינטים
+    </p>
+}

@@ -1,0 +1,58 @@
+﻿@model IEnumerable<Medicine.Models.Departments>
+@{
+    Layout = Session["Layout"].ToString();
+    ViewBag.Title = "AllDepartments";
+}
+
+<style>
+    .addDepartment {
+        position: absolute;
+        left: 0px;
+    }
+</style>
+
+<h2>מחלקות</h2>
+
+@if (Model != null && Model.Count() > 0)
+{
+<table class="table">
+    <tr>
+        <th>
+            <h5>מס' מחלקה</h5>
+        </th>
+        <th>
+            <h5>שם מחלקה</h5>
+        </th>
+        <th>
+            <h5>ת"ז מנהל המחלקה</h5>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CodeDepartment)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DepartmentName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.IdDepartrmentManager)
+        </td>
+        <td>
+            @Html.ActionLink("חדרי המחלקה", "AllRooms", new { codeDepartment = item.CodeDepartment })
+            @Html.ActionLink("עריכה", "EditDepartment", new { codeDepartment = item.CodeDepartment })
+    </tr>
+}
+</table>
+<p class="btn btn-default addDepartment" >
+    @Html.ActionLink("מחלקה חדשה", "NewDepartment")
+</p>
+}
+else
+{
+    <p>
+        אין מחלקות
+    </p>
+}

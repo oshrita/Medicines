@@ -1,0 +1,45 @@
+﻿@model IEnumerable<Medicine.Models.HospitalizationMedicine>
+
+@{
+    //Layout = Session["Layout"].ToString();
+    ViewBag.Title = "Medicines";
+}
+
+<h2>תרופות</h2>
+
+@if (Model != null && Model.Count() > 0)
+{
+<table class="table">
+    <tr>
+        <th>
+            <h5>שם תרופה</h5>
+        </th>
+        <th>
+            <h5>שם רופא מנחה</h5>
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Medicines.MedicineName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Workers.FirstName)
+        </td>
+        <td>
+            @Html.ActionLink("פרטים", "MedicinesDetailes", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
+}
+else
+{
+<p>
+    no mediciens in the list
+</p>
+}
+<input id="Button1" type="button" value="הצג קבלת תרופות" onclick="thisHospitalizationMedicines()" />
+<input id="Button1" type="button" value="הוסף תרופה" />

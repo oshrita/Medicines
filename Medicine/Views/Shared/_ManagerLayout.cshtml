@@ -1,0 +1,71 @@
+﻿
+@{
+    ViewBag.Title = "_ManagerLayout";
+    Layout = "_Layout.cshtml";
+}
+<style>
+    .flex-container {
+        display: flex;
+    }
+    .name {
+        color:pink;
+    }
+    /*.conBtn {
+        width: 200px;
+        background-color: aliceblue;
+        position:absolute;
+        left:0px;
+    }*/
+    .conAll {
+        min-width: calc(100% - 300px);
+        max-width: calc(100% - 300px);
+        position: relative;
+    }
+    .mainCon {
+        position: relative;
+    }
+
+       
+</style>
+<link href="~/Content/bootstrap.min.css" rel="stylesheet" />
+<script src="~/Scripts/bootstrap.min.js"></script>
+<h2 class="name">מנהל</h2>
+
+
+
+<div class="container mainCon row flex-container" style="direction:rtl">
+    <div class="col conAll">
+        @RenderBody()           
+</div>
+    <div class=" col conBtn ">
+          <ul class="nav nav-pills nav-stacked" role="tablist">
+                <li class="active">
+                    <ul class="nav nav-pills nav-stacked" role="tablist">
+                        <li>@Html.ActionLink("עובדים", "AllWorkers", "Worker")</li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <ul class="nav nav-pills nav-stacked" role="tablist">
+                        <li>@Html.ActionLink("מחלקות", "AllDepartments", "Department")</li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <ul class="nav nav-pills nav-stacked" role="tablist">
+                        <li>@Html.ActionLink("תרופות", "AllMedicines", "Medicines")</li>
+                    </ul>
+                </li>
+                <li class="active">
+                    <ul class="nav nav-pills nav-stacked" role="tablist">
+                        <li>@Html.ActionLink("מטופלים", "AllPatiant", "Patiant")</li>
+                    </ul>
+                </li>
+
+            </ul>
+        </div>
+
+
+
+
+   
+</div>
+

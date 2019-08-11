@@ -1,0 +1,132 @@
+﻿@model Medicine.Models.Burdeneds
+
+@{
+    Layout = Session["Layout"].ToString();
+    ViewBag.Title = "PatiantDetailes";
+}
+
+<style>
+    * {
+        box-sizing: border-box
+    }
+
+    /* Set height of body and the document to 100% */
+    body, html {
+        height: 100%;
+        margin: 0;
+        font-family: Arial;
+    }
+
+    /* Style tab links */
+    .tablink {
+        background-color: #555;
+        color: white;
+        float: left;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        padding: 14px 16px;
+        font-size: 17px;
+        width: 25%;
+    }
+
+        .tablink:hover {
+            background-color: #777;
+        }
+
+    /* Style the tab content (and add height:100% for full page content) */
+    .tabcontent {
+        color: black;
+        display: none;
+        padding: 100px 20px;
+        height: 100%;
+    }
+
+    #Home {
+        background-color: red;
+    }
+
+    #News {
+        background-color: green;
+    }
+
+    #Contact {
+        background-color: blue;
+    }
+
+    #About {
+        background-color: orange;
+    }
+</style>
+<script>
+      function openPage(pageName, elmnt, color) {
+          var i, tabcontent, tablinks;
+          tabcontent = document.getElementsByClassName("tabcontent");
+          for (i = 0; i < tabcontent.length; i++) {
+              tabcontent[i].style.display = "none";
+          }
+          tablinks = document.getElementsByClassName("tablink");
+          for (i = 0; i < tablinks.length; i++) {
+              tablinks[i].style.backgroundColor = "";
+          }
+          document.getElementById(pageName).style.display = "block";
+          elmnt.style.backgroundColor = color;
+      }
+
+      // Get the element with id="defaultOpen" and click on it
+    //document.getElementById("defaultOpen").click();
+    function checkNochechy()
+    {
+
+    }
+</script>
+<body>
+    @Html.DisplayFor(m => m.FirstName, new { @class = "form-control" })
+    @Html.DisplayFor(m => m.LastName, new { @class = "form-control" })
+    @Html.DisplayFor(m => m.Id, new { @class = "form-control" })
+    @Html.DisplayFor(m => m.Phone, new { @class = "form-control" })
+    @Html.DisplayFor(m => m.BirthDate, new { @class = "form-control" })
+    @Html.DisplayFor(m => m.Address, new { @class = "form-control" })<br />
+
+
+    @*@Html.ActionLink("אשפוזים קודמים", "OldHospitalization", new { })|
+    @Html.ActionLink("מיטה", "Bed", new { })|
+    @Html.ActionLink("תרופות", "Medicines", new { })|
+    @Html.ActionLink("שחרור", "Demobilization", new { })*@
+
+    <button class="tablink" onclick="openPage('OldHospitalization', this, 'gray')">אשפוזים קודמים</button>
+    <button class="tablink" onclick="openPage('Bed', this, 'gray')" id="defaultOpen">מיטה</button>
+    <button class="tablink" onclick="openPage('Medicines', this, 'gray')">תרופות</button>
+    @*<button class="tablink" onclick="openPage('Demobilization', this, 'gray')">שחרור</button>*@
+
+    <div id="OldHospitalization" class="tabcontent">
+        @if(Session["statusShow"].ToString()==false.ToString())
+        {
+            @Html.Action("OldHospitalization", "Patiant");
+        }
+        else
+        {
+            @Html.Action("OldHospitalization", "Patiant",new { id = Model.Id });
+        }
+        
+    </div>
+
+    <div id="Bed" class="tabcontent" >
+        @Html.Action("Bed", "Patiant")
+    </div>
+
+    <div id="Medicines" class="tabcontent">
+        @Html.Action("Medicines", "Patiant")
+    </div>
+
+    @*<div id="Demobilization" class="tabcontent">
+        <h3>About</h3>
+        <p>Who we are and what we do.</p>
+    </div>*@
+
+  
+</body>
+
+
+
+

@@ -1,0 +1,91 @@
+﻿@model IEnumerable<Medicine.Models.Workers>
+@{
+    Layout = Session["Layout"].ToString();
+    ViewBag.Title = "AllWorkers";
+}
+
+<style>
+    .addWorker {
+        position:absolute;
+        left:0px;     
+    }
+</style>
+
+<h2>כל העובדים</h2>
+
+@if (Model != null && Model.Count() > 0)
+{
+<table class="table">
+    <tr>
+        <th>
+           <h5>סיסמא</h5>
+        </th>
+        <th>
+            <h5>שם פרטי</h5>
+        </th>
+        <th>
+            <h5>שם משפחה</h5>
+        </th>
+        <th>
+            <h5>טלפון</h5>
+        </th>
+        <th>
+            <h5>מייל</h5>
+        </th>
+        <th>
+            <h5>תפקיד</h5>
+        </th>
+        <th>
+            <h5>פעיל?</h5>
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Password)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Phone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Roles.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Active)
+        </td>
+        <td>
+            @Html.ActionLink("ערוך", "Edit", new { id = item.Id }) |
+            @if (item.Active)//בדיקה האם פעיל?- מציג לא פעיל 
+            {
+                @Html.ActionLink("לא פעיל", "SetActiveState", new { id = item.Id })
+            }
+            else//אחרת- מציג פעיל
+            {
+                @Html.ActionLink("פעיל", "SetActiveState", new { id = item.Id })
+            }
+
+            </td >
+            </tr >
+        }
+</table>
+<p class="btn btn-default addWorker">
+    @Html.ActionLink("עובד חדש", "Neworker")
+</p>
+}
+else
+{
+    <p>
+        אין עובדים
+    </p>
+}
